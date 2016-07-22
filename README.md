@@ -49,6 +49,10 @@ The files tree is:
 ```
 node filemap.js <-i folder-name folder-name folder-name ...>
 ```
+```
+node filemap.js -i node_modules -m 1 //只遍历除node_modules以外的文件夹
+node filemap.js -i node_modules //只遍历除node_modules以外的文件夹以及文件
+```
 - <-i folder-name>: In order to ignore some folders which contains lots of files and folders, such as `node_modules` etc, you could use this command to avoid them to be unfolded. Use blank to split each `folder-name`.
 
 ## License
