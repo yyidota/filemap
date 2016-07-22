@@ -1,17 +1,26 @@
 /**
  * @author Jrain Lau
  * @email jrainlau@163.com
- * @date 2016-07-14
+ * @modifier yyidota
+ * @email yyidota@163.com
+ * @date 2016-07-22
  */
- 
+
 'use strict'
 const fs = require('fs')
 
 let ignoreCase = {}
-if(process.argv[2] === '-i'){
-    for (let i of process.argv.slice(3)) {
-      ignoreCase[i] = true
-    }
+let isFolder = false;
+if (process.argv[2] === '-i') {
+  for (let i of process.argv.slice(3)) {
+    ignoreCase[i] = true
+  }
+}
+
+if (process.argv[4] === '-m') {
+  for (let i of process.argv.slice(5)) {
+    isFolder = true
+  }
 }
 
 console.log('\n\nThe files tree is:\n=================\n\n')
@@ -31,11 +40,31 @@ let isDic = (url) => fs.statSync(url).isDirectory()
 const traverseFiles = (path, deep) => {
   let files = fs.readdirSync(path)
   let con = false
-  for (let i = 0, len = files.length; i < len; i++) {
-    if (files[i] !== 'filemap.js') console.log(placeHolder(deep), files[i], '\n')
-    con = ignoreCase[files[i]] === undefined? true: false
-    let dirPath = path + '\\' + files[i]
-    if (isDic(dirPath) && con) traverseFiles(dirPath, deep + 1)
+
+  if (isFolder) {
+    let folders = [];
+    for (let i = files.length - 1; i >= 0; i--) {
+      let dirPath = path + '\\' + files[i]
+      con = ignoreCase[files[i]] === undefined ? true : false
+      if (isDic(dirPath) && con) {
+        folders.push(files[i]);
+      }
+    }
+
+    for (let i = 0, len = folders.length; i < len; i++) {
+      console.log(placeHolder(deep), folders[i], '\n')
+
+
+      let dirPath = path + '\\' + folders[i]
+      if (isDic(dirPath)) traverseFiles(dirPath, deep + 1)
+    }
+  } else {
+    for (let i = 0, len = files.length; i < len; i++) {
+      if (files[i] !== 'filemap.js') console.log(placeHolder(deep), files[i], '\n')
+      con = ignoreCase[files[i]] === undefined ? true : false
+      let dirPath = path + '\\' + files[i]
+      if (isDic(dirPath) && con) traverseFiles(dirPath, deep + 1)
+    }
   }
 }
 
