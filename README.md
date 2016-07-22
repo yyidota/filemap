@@ -44,6 +44,29 @@ The files tree is:
 
   |__ test.md
 ```
+```
+node filemap.js -i node_modules -m 1
+```
+```
+The folders tree is:
+============================
+
+
+
+  |__ folder1
+  
+  |__ folder2
+
+    |__ inside1
+
+    |__ inside2
+    
+      |__ staff
+
+  |__ TEST
+
+
+```
 
 ## Options
 ```
